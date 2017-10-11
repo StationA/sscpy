@@ -1,5 +1,7 @@
 # sscpy
 
+[![PyPI version](https://badge.fury.io/py/sscpy.svg)](https://badge.fury.io/py/sscpy)
+
 Python bindings to SAM Simulation Core (SSC)
 
 # Installation
@@ -9,7 +11,13 @@ Python bindings to SAM Simulation Core (SSC)
 * [SAM Simulation Core (SSC)](https://github.com/NREL/ssc) native libraries
 * Python 2.7+
 
-### Installing directly
+### Install from PyPI (recommended)
+
+```
+pip install sscpy
+```
+
+### Installing from Github
 
 ```
 pip install git+https://github.com/StationA/sscpy.git#egg=sscpy
