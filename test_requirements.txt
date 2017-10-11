@@ -1,0 +1,11 @@
+# Testing
+pytest==3.0.7
+mock==2.0.0
+hypothesis==3.8.2
+
+# Code style
+pylint==1.6.5
+prospector==0.12.4
+
+# Coverage
+coverage==4.3.4

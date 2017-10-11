@@ -1,0 +1,3 @@
+include *.py *.md *.rst *.ini MANIFEST.in LICENSE requirements.txt test_requirements.txt
+recursive-include docs *
+recursive-include tests *
