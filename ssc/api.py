@@ -3,7 +3,7 @@ from ssc._ffi import ffi
 
 
 _LIB = ffi.dlopen('libssc.so')
-_LIB.ssc_module_exec_set_print(0)
+_LIB.ssc_module_exec_set_print(1)
 __buildinfo__ = ffi.string(_LIB.ssc_build_info())
 __version__ = _LIB.ssc_version()
 
@@ -159,17 +159,8 @@ class PVWattsV5(SSCModule):
     def __init__(self):
         super(PVWattsV5, self).__init__('pvwattsv5')
 
-    def run(self, solar_resource_file, system_capacity=1.0, losses=14.0, array_type=0, tilt=20,
-            azimuth=180, adjust_constant=0):
+    def run(self, **inputs):
         d = Data()
-
-        d['solar_resource_file'] = solar_resource_file
-        d['system_capacity'] = system_capacity
-        d['losses'] = losses
-        d['array_type'] = array_type
-        d['tilt'] = tilt
-        d['azimuth'] = azimuth
-        d['adjust:constant'] = adjust_constant
-
+        d.update(inputs)
         self.execute(d)
         return d

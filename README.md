@@ -39,7 +39,16 @@ pip install .
 from ssc.api import PVWattsV5
 
 pvwatts = PVWattsV5()
-results = pvwatts.run('weather_data.csv')
+params = {
+    'solar_resource_file': 'weather_data.csv',
+    'system_capacity': 1.0,
+    'losses': 14.0,
+    'array_type': 0,
+    'tilt': 20,
+    'azimuth': 180,
+    'adjust:constant': 0
+}
+results = pvwatts.run(**params)
 
 for output in results['ac']:
     print(output)
