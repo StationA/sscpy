@@ -2,7 +2,10 @@ from UserDict import DictMixin
 from ssc._ffi import ffi
 
 
-_LIB = ffi.dlopen('libssc.so')
+try:
+    _LIB = ffi.dlopen('libssc.so') # Linux
+except:
+    _LIB = ffi.dlopen('ssc.dylib') # OSX
 _LIB.ssc_module_exec_set_print(1)
 __buildinfo__ = ffi.string(_LIB.ssc_build_info())
 __version__ = _LIB.ssc_version()
