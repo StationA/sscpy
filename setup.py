@@ -12,7 +12,7 @@ TESTS_REQUIRE = [str(r.req) for r in
 
 setup(
     name='sscpy',
-    version='0.1.2',
+    version='0.1.3',
     description='SAM Simulation Core (SSC) API for Python',
     author='Station A',
     author_email='StationAOps@nrg.com',
