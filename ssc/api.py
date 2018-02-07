@@ -1,11 +1,14 @@
-from UserDict import DictMixin
+try:
+    from UserDict import DictMixin
+except ImportError:
+    from collections import MutableMapping as DictMixin
 from ssc._ffi import ffi
 
 
 try:
-    _LIB = ffi.dlopen('libssc.so') # Linux
+    _LIB = ffi.dlopen('libssc.so')  # Linux
 except:
-    _LIB = ffi.dlopen('ssc.dylib') # OSX
+    _LIB = ffi.dlopen('ssc.dylib')  # OSX
 _LIB.ssc_module_exec_set_print(1)
 __buildinfo__ = ffi.string(_LIB.ssc_build_info())
 __version__ = _LIB.ssc_version()
