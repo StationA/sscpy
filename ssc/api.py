@@ -43,8 +43,9 @@ class Data(DictMixin):
 
     def _get_data_type(self, name):
         for key in self.keys():
+            key = key.decode('ascii')
             if key == name:
-                return _LIB.ssc_data_query(self._data, key)
+                return _LIB.ssc_data_query(self._data, key.encode('ascii'))
 
         raise KeyError(name)
 
@@ -64,10 +65,10 @@ class Data(DictMixin):
         raise TypeError('Unsupported SSC data type \'%s\'' % type_)
 
     def __setitem__(self, name, v):
-        if type(v) is str or type(v) is unicode:
-            return _LIB.ssc_data_set_string(self._data, name, v)
+        if type(v) is str:
+            return _LIB.ssc_data_set_string(self._data, name.encode('ascii'), v.encode('ascii'))
         if type(v) is int or type(v) is float:
-            return _LIB.ssc_data_set_number(self._data, name, v)
+            return _LIB.ssc_data_set_number(self._data, name.encode('ascii'), v)
 
         raise TypeError('Unsupported Python data type \'%s\'' % type(v))
 
@@ -87,7 +88,7 @@ class Data(DictMixin):
 
     def _get_array(self, name):
         len_ = ffi.new('int *')
-        arr = _LIB.ssc_data_get_array(self._data, name, len_)
+        arr = _LIB.ssc_data_get_array(self._data, name.encode('ascii'), len_)
         return [arr[i] for i in range(0, len_[0])]
 
     def _get_matrix(self, name):
@@ -106,13 +107,19 @@ class Data(DictMixin):
             key = _LIB.ssc_data_next(self._data)
         return keys_
 
+    def __iter__(self):
+        pass
+
+    def __len__(self):
+        pass
+
 
 class SSCModule(object):
     """
     Generic base class for SSC modules
     """
     def __init__(self, mod_name):
-        self._module = _LIB.ssc_module_create(mod_name)
+        self._module = _LIB.ssc_module_create(mod_name.encode('ascii'))
 
     def _module_data(self):
         i = 0
