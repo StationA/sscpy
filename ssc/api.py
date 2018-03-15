@@ -7,7 +7,7 @@ from ssc._ffi import ffi
 
 try:
     _LIB = ffi.dlopen('libssc.so')  # Linux
-except:
+except Exception:
     _LIB = ffi.dlopen('ssc.dylib')  # OSX
 _LIB.ssc_module_exec_set_print(1)
 __buildinfo__ = ffi.string(_LIB.ssc_build_info())
@@ -43,13 +43,13 @@ class Data(DictMixin):
 
     def _get_data_type(self, name):
         for key in self.keys():
-            key = key.decode('ascii')
             if key == name:
-                return _LIB.ssc_data_query(self._data, key.encode('ascii'))
+                return _LIB.ssc_data_query(self._data, key)
 
         raise KeyError(name)
 
     def __getitem__(self, name):
+        name = bytes(name, 'utf-8')
         type_ = self._get_data_type(name)
         if type_ == _LIB.SSC_STRING:
             return self._get_string(name)
@@ -65,15 +65,18 @@ class Data(DictMixin):
         raise TypeError('Unsupported SSC data type \'%s\'' % type_)
 
     def __setitem__(self, name, v):
+        name = bytes(name, 'utf-8')
         if type(v) is str:
-            return _LIB.ssc_data_set_string(self._data, name.encode('ascii'), v.encode('ascii'))
+            v = bytes(v, 'utf-8')
+            return _LIB.ssc_data_set_string(self._data, name, v)
         if type(v) is int or type(v) is float:
-            return _LIB.ssc_data_set_number(self._data, name.encode('ascii'), v)
+            return _LIB.ssc_data_set_number(self._data, name, v)
 
         raise TypeError('Unsupported Python data type \'%s\'' % type(v))
 
     def __delitem__(self, name):
         # Used to check for key existence
+        name = bytes(name, 'utf-8')
         self._get_data_type(name)
         _LIB.ssc_data_unassign(self._data, name)
 
@@ -88,7 +91,7 @@ class Data(DictMixin):
 
     def _get_array(self, name):
         len_ = ffi.new('int *')
-        arr = _LIB.ssc_data_get_array(self._data, name.encode('ascii'), len_)
+        arr = _LIB.ssc_data_get_array(self._data, name, len_)
         return [arr[i] for i in range(0, len_[0])]
 
     def _get_matrix(self, name):
@@ -108,10 +111,11 @@ class Data(DictMixin):
         return keys_
 
     def __iter__(self):
-        pass
+        for k in self.keys():
+            yield (k, self.__getitem__(k))
 
     def __len__(self):
-        pass
+        return len(self.keys())
 
 
 class SSCModule(object):
@@ -119,7 +123,8 @@ class SSCModule(object):
     Generic base class for SSC modules
     """
     def __init__(self, mod_name):
-        self._module = _LIB.ssc_module_create(mod_name.encode('ascii'))
+        mod_name = bytes(mod_name, 'utf-8')
+        self._module = _LIB.ssc_module_create(mod_name)
 
     def _module_data(self):
         i = 0
