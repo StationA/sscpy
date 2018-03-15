@@ -9,7 +9,7 @@ Python bindings to SAM Simulation Core (SSC)
 ### Requirements
 
 * [SAM Simulation Core (SSC)](https://github.com/NREL/ssc) native libraries
-* Python 2.7+
+* Python 3+
 
 ### Install from PyPI (recommended)
 
