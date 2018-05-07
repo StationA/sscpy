@@ -14,6 +14,8 @@ setup(
     },
     zip_safe=False,
     setup_requires=['cffi>=1.0.0'],
+    install_requires=['cffi>=1.0.0'],
+    tests_require=['cffi>=1.0.0'],
     cffi_modules=['ssc/ffibuilder.py:_FFI'],
     license='License :: OSI Approved :: MIT License',
 )
