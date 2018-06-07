@@ -9,9 +9,17 @@ try:
     _LIB = ffi.dlopen('libssc.so')  # Linux
 except Exception:
     _LIB = ffi.dlopen('ssc.dylib')  # OSX
-_LIB.ssc_module_exec_set_print(1)
+_LIB.ssc_module_exec_set_print(0)
 __buildinfo__ = ffi.string(_LIB.ssc_build_info())
 __version__ = _LIB.ssc_version()
+
+
+def enable_logging():
+    _LIB.ssc_module_exec_set_print(1)
+
+
+def disable_logging():
+    _LIB.ssc_module_exec_set_print(0)
 
 
 def list_modules():
