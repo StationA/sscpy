@@ -79,7 +79,13 @@ class Data(DictMixin):
             return _LIB.ssc_data_set_string(self._data, name, v)
         if type(v) is int or type(v) is float:
             return _LIB.ssc_data_set_number(self._data, name, v)
-
+        if isinstance(v, Data):
+            return _LIB.ssc_data_set_table(self._data, name, ffi.cast('ssc_data_t', v._data))
+        if isinstance(v, list) and type(v[0]) is float or type(v[0]) is int:
+            new_list = ffi.new('ssc_number_t[%s]' % len(v))
+            for i in range(len(v)):
+                new_list[i] = v[i]
+            return _LIB.ssc_data_set_array(self._data, name, new_list, len(new_list))
         raise TypeError('Unsupported Python data type \'%s\'' % type(v))
 
     def __delitem__(self, name):
