@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='sscpy',
-    version='0.1.6',
+    version='0.1.7',
     description='SAM Simulation Core (SSC) API for Python',
     author='Station A',
     author_email='StationAOps@nrg.com',
