@@ -2,9 +2,9 @@ FROM stationa/ssc:latest
 
 RUN apk add --no-cache \
     build-base \
-    python2 \
-    python2-dev \
-    py2-pip \
+    python3 \
+    python3-dev \
+    py-pip \
     zlib-dev \
     lzo-dev \
     libxml2-dev \
@@ -16,4 +16,4 @@ ADD . /sscpy
 
 WORKDIR /sscpy
 
-RUN pip install .
+RUN pip3 install .
