@@ -2,9 +2,6 @@ FROM stationa/ssc:latest
 
 RUN apk add --no-cache \
     build-base \
-    python3 \
-    python3-dev \
-    py-pip \
     zlib-dev \
     lzo-dev \
     libxml2-dev \
