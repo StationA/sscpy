@@ -16,4 +16,6 @@ ADD . /sscpy
 
 WORKDIR /sscpy
 
+RUN pip3 install --upgrade pip
+RUN pip3 install tox
 RUN pip3 install .

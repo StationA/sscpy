@@ -4,8 +4,8 @@ mock==2.0.0
 hypothesis==3.8.2
 
 # Code style
-pylint==1.6.5
-prospector==0.12.4
+pylint==1.8.2
+flake8==3.5.0
 
 # Coverage
 coverage==4.3.4
