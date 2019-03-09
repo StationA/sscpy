@@ -4,9 +4,9 @@ from setuptools import setup, find_packages
 setup(
     name='sscpy',
     version='0.1.7',
-    description='SAM Simulation Core (SSC) API for Python',
+    description='Python bindings for SAM Simulation Core (SSC)',
     author='Station A',
-    author_email='StationAOps@nrg.com',
+    author_email='software@stationa.com',
     url='https://github.com/StationA/sscpy',
     packages=find_packages(exclude=['*tests*']),
     package_data={
