@@ -4,7 +4,7 @@
 
 Python bindings to SAM Simulation Core (SSC)
 
-# Installation
+## Installation
 
 ### Requirements
 
@@ -31,7 +31,7 @@ cd sscpy
 pip install .
 ```
 
-# Usage
+## Usage
 
 ### Example running PVWatts (v5)
 
@@ -55,7 +55,13 @@ for output in results['ac']:
 ```
 
 
-# Contributing
+## Contributing
+
+When contributing to this repository, please follow the steps below:
+
+1. Fork the repository
+1. Submit your patch in one commit, or a series of well-defined commits
+1. Submit your pull request and make sure you reference the issue you are addressing
 
 ### Installing for development
 
