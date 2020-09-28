@@ -1,11 +1,15 @@
-FROM stationa/ssc:latest
+FROM stationa/ssc:alpine
 
 RUN apk add --no-cache \
+    ca-certificates \
+    wget \
     build-base \
-    zlib-dev \
-    lzo-dev \
-    libxml2-dev \
-    libffi-dev
+    libffi-dev \
+    python3 \
+    python3-dev
+
+# Install pip
+RUN wget https://bootstrap.pypa.io/get-pip.py && python3 get-pip.py
 
 # Add sscpy sources and install
 

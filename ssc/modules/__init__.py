@@ -6,6 +6,7 @@ class ModuleRunError(Exception):
     """
     Generic error which occurs while a module is running
     """
+
     pass
 
 
@@ -13,8 +14,9 @@ class SSCModule(object):
     """
     Generic base class for SSC modules
     """
+
     def __init__(self, mod_name):
-        mod_name = bytes(mod_name, 'utf-8')
+        mod_name = bytes(mod_name, "utf-8")
         self._module = _LIB.ssc_module_create(mod_name)
 
     def _module_data(self):
