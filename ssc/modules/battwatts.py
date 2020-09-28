@@ -6,8 +6,9 @@ class BattWatts(SSCModule):
     """
     SSCModule implementation of the BattWatts interface
     """
+
     def __init__(self):
-        super().__init__('battwatts')
+        super().__init__("battwatts")
 
     def run(self, **inputs):
         d = Data()

@@ -6,9 +6,10 @@ from ssc._ffi import ffi
 
 
 try:
-    _LIB = ffi.dlopen('libssc.so')  # Linux
-except Exception:
-    _LIB = ffi.dlopen('ssc.dylib')  # OSX
+    _LIB = ffi.dlopen("libssc.so")  # Linux
+except OSError:
+    _LIB = ffi.dlopen("ssc.dylib")  # OSX
+
 _LIB.ssc_module_exec_set_print(0)
 __buildinfo__ = ffi.string(_LIB.ssc_build_info())
 __version__ = _LIB.ssc_version()
@@ -39,6 +40,7 @@ class Data(DictMixin):
     """
     Dict-like wrapper for the SSC data table type `ssc_data_t`
     """
+
     def __init__(self):
         self._data = _LIB.ssc_data_create()
 
@@ -50,7 +52,7 @@ class Data(DictMixin):
         raise KeyError(name)
 
     def __getitem__(self, name):
-        name = bytes(name, 'utf-8')
+        name = bytes(name, "utf-8")
         type_ = self._get_data_type(name)
         if type_ == _LIB.SSC_STRING:
             return self._get_string(name)
@@ -63,30 +65,34 @@ class Data(DictMixin):
         if type_ == _LIB.SSC_TABLE:
             return self._get_table(name)
 
-        raise TypeError('Unsupported SSC data type \'%s\'' % type_)
+        raise TypeError("Unsupported SSC data type '%s'" % type_)
 
     def __setitem__(self, name, v):
-        name = bytes(name, 'utf-8')
+        name = bytes(name, "utf-8")
         if type(v) is str:
-            v = bytes(v, 'utf-8')
+            v = bytes(v, "utf-8")
             return _LIB.ssc_data_set_string(self._data, name, v)
         if type(v) is int or type(v) is float:
             return _LIB.ssc_data_set_number(self._data, name, v)
         if isinstance(v, Data):
-            return _LIB.ssc_data_set_table(self._data, name, ffi.cast('ssc_data_t', v._data))
+            return _LIB.ssc_data_set_table(
+                self._data, name, ffi.cast("ssc_data_t", v._data)
+            )
         if isinstance(v, list):
             if type(v[0]) is float or type(v[0]) is int:
-                new_list = ffi.new('ssc_number_t[%s]' % len(v))
+                new_list = ffi.new("ssc_number_t[%s]" % len(v))
                 for i in range(len(v)):
                     new_list[i] = v[i]
-                return _LIB.ssc_data_set_array(self._data, name, new_list, len(new_list))
+                return _LIB.ssc_data_set_array(
+                    self._data, name, new_list, len(new_list)
+                )
             else:
-                raise TypeError('Unsupported list element type \'%s\'' % type(v))
-        raise TypeError('Unsupported Python data type \'%s\'' % type(v))
+                raise TypeError("Unsupported list element type '%s'" % type(v))
+        raise TypeError("Unsupported Python data type '%s'" % type(v))
 
     def __delitem__(self, name):
         # Used to check for key existence
-        name = bytes(name, 'utf-8')
+        name = bytes(name, "utf-8")
         self._get_data_type(name)
         _LIB.ssc_data_unassign(self._data, name)
 
@@ -95,12 +101,12 @@ class Data(DictMixin):
         return ffi.string(s)
 
     def _get_number(self, name):
-        n = ffi.new('ssc_number_t *')
+        n = ffi.new("ssc_number_t *")
         _LIB.ssc_data_get_number(self._data, name, n)
         return n[0]
 
     def _get_array(self, name):
-        len_ = ffi.new('int *')
+        len_ = ffi.new("int *")
         arr = _LIB.ssc_data_get_array(self._data, name, len_)
         return [arr[i] for i in range(0, len_[0])]
 
