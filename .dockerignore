@@ -1,3 +1,6 @@
 .git
 *.egg-info/
 .tox
+.coverage-reports
+dev
+.mypy_cache
