@@ -1,15 +1,14 @@
-FROM stationa/ssc:alpine
+FROM stationa/ssc:latest as ssc
+
+FROM python:alpine
+
+COPY --from=ssc /usr/local/lib/libssc.so /usr/local/lib/libssc.so
+COPY --from=ssc /usr/local/include/sscapi.h /usr/local/include/sscapi.h
 
 RUN apk add --no-cache \
     ca-certificates \
-    wget \
     build-base \
-    libffi-dev \
-    python3 \
-    python3-dev
-
-# Install pip
-RUN wget https://bootstrap.pypa.io/get-pip.py && python3 get-pip.py
+    libffi-dev
 
 # Add sscpy sources and install
 
@@ -17,6 +16,7 @@ ADD . /sscpy
 
 WORKDIR /sscpy
 
-RUN pip3 install --upgrade pip
-RUN pip3 install tox
 RUN pip3 install .
+
+# Test sscpy
+RUN python3 /sscpy/examples/pvwatts.py /sscpy/examples/ca_weather.csv
