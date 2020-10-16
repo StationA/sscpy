@@ -8,8 +8,8 @@ Python bindings to SAM Simulation Core (SSC)
 
 ### Requirements
 
-* [SAM Simulation Core (SSC)](https://github.com/NREL/ssc) native libraries
-* Python 3+
+- [SAM Simulation Core (SSC)](https://github.com/NREL/ssc) native libraries
+- Python 3+
 
 ### Install from PyPI (recommended)
 
@@ -33,12 +33,12 @@ pip install .
 
 ## Usage
 
-### Example running PVWatts (v5)
+### Example running PVWatts (v7)
 
 ```python
-from ssc.api import PVWattsV5
+from ssc.api import PVWatts
 
-pvwatts = PVWattsV5()
+pvwatts = PVWatts()
 params = {
     'solar_resource_file': 'weather_data.csv',
     'system_capacity': 1.0,
@@ -53,7 +53,6 @@ results = pvwatts.run(**params)
 for output in results['ac']:
     print(output)
 ```
-
 
 ## Contributing
 
