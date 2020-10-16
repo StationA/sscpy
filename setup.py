@@ -9,7 +9,7 @@ with open(path.join(curdir, "README.md"), encoding="utf-8") as f:
 
 setup(
     name="sscpy",
-    version="0.1.7",
+    version="0.2.0",
     description="Python bindings for SAM Simulation Core (SSC)",
     long_description=long_description,
     long_description_content_type="text/markdown",
